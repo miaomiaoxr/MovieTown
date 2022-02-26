@@ -34,6 +34,12 @@ class Movie(models.Model):
     description = models.CharField(max_length=500,blank=True)
     pub_date = models.DateField(blank=True)
     upload_date = models.DateField(blank=True)
+    slug = models.SlugField(unique=True)
+
+    def save(self,*args,**kwargs):
+        self.slug = slugify(self.name)
+        super(Category,self).save(*args,**kwargs)
+
     
 
     def __str__(self) -> str:

@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from turtle import title
 from unicodedata import category
@@ -11,93 +12,59 @@ from rango.models import Category,Page
 
 def populate():
 
-    python_pages = [
+    action_movie = [
         {
-            'title': 'Official Python Tutorial',
-            'url': 'http://docs.python.org/3/tutorial/',
-            'views': 10
-        },
-        {
-            'title': 'How to Think like a Computer Scientist',
-            'url': 'http://www.greenteapress.com/thinkpython/',
-            'views':9
-        },
-        {
-            'title': 'Learn Python in 10 Minutes',
-            'url': 'http://www.korokithakis.net/tutorials/python/',
-            'views':8
+            'name': 'No Time to Die',
+            'director': 'Cary Joji Fukunaga',
+            'lead_actor': 'Daniel Craig',
+            'description':'This is a 007 Movie',
+            'pub_date':datetime.date(2017,5,17),
         }
     ]
 
-    django_pages = [
+    romantic_moive = [
         {
-            'title':'Official Django Tutorial',
-            'url': 'https://docs.djangoproject.com/en/2.1/intro/tutorial01/',
-            'views':7
-        },
-        {
-            'title':'Django Rocks',
-            'url': 'http://www.djangorocks.com/',
-            'views':6
-        },
-        {
-            'title':'How to Tango with Django',
-            'url': 'http://www.tangowithdjango.com/',
-            'views':5
+            'name': 'Titanic',
+            'director': 'James Cameron',
+            'lead_actor': 'Leonardo DiCaprio',
+            'description':'This is a titanic Movie',
+            'pub_date':{1997,12,19},
         }
     ]
 
-    other_pages = [
-        {
-            'title':'Bottle',
-            'url': 'http://bottlepy.org/docs/dev/',
-            'views':4
-        },
-        {
-            'title':'Flask',
-            'url': 'http://flask.pocoo.org',
-            'views':3
-        }
-    ]
+
 
     cats = {
-        'Python':{
-            'pages':python_pages,
-            'views':128,
-            'likes':64
+        'Action':{
+            'pages':action_movie,
         },
-        'Django':{
-            'pages':django_pages,
+        'Romantic':{
+            'pages':romantic_moive,
             'views':64,
             'likes':32
-        },
-        'Other Frameworks':{
-            'pages': other_pages,
-            'views': 32,
-            'likes': 16
         }
     }
 
     for cat,cat_data in cats.items():
-        c = add_cat(cat,cat_data['views'],cat_data['likes'])
+        c = add_cat(cat)
         for p in cat_data['pages']:
-            add_page(c,p['title'],p['url'],p['views'])
+            add_page(c,p['name'],p['director'],p['lead_actor'],p['description'],p['pub_date'])
 
     for c in Category.objects.all():
         for p in Page.objects.filter(category=c):
             print(f'- {c}:{p}')
 
-def add_page(cat,title,url,views):
+def add_page(cat,director,lead_actor,description,pub_date):
     p = Page.objects.get_or_create(category=cat, title=title)[0]
-    p.url = url
-    p.views = views
+    p.director = director
+    p.lead_actor = lead_actor
+    p.description = description
+    p.pub_date = pub_date
     p.save()
     return p
 
-def add_cat(name,views,likes):
+def add_cat(name):
     c = Category.objects.get_or_create(name=name)[0]
-    c.views = views
-    c.likes = likes
     c.save()
     return c
 

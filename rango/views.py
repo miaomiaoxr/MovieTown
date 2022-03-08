@@ -174,3 +174,6 @@ def about(request):
 
     response = render(request,'rango/about.html',context=context_dict)
     return response
+
+def movie(request):
+    return render(request,'rango/movie.html')

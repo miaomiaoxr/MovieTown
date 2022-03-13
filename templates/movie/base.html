@@ -20,11 +20,11 @@
         <div>
             <ul>
                 {% if user.is_authenticated %}
-                {% comment %} <li><a href="{% url 'rango:restricted' %}">Restricted Page</a></li> {% endcomment %}
-                {% comment %} <li><a href="{% url 'auth_logout' %}?next={% url 'rango:index' %}">Logout</a></li> {% endcomment %}
+                <li><a href={% url 'user_profile' %}>user_profile</a></li>
+                <li><a href="{% url 'auth_logout' %}?next={% url 'movie:index' %}">Logout</a></li>
                 {% else %}
-                {% comment %} <li><a href="{% url 'registration_register' %}">Sign Up</a></li> {% endcomment %}
-                {% comment %} <li><a href="{% url 'auth_login' %}">Login</a></li> {% endcomment %}
+                <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
+                <li><a href="{% url 'auth_login' %}">Login</a></li>
                 {% endif %}
             </ul>
         </div>

@@ -22,4 +22,5 @@ urlpatterns = [
     path('movie/', include('movie.urls')),
     path('admin/', admin.site.urls),
     path('accounts/',include('registration.backends.simple.urls')),
+    path('accounts/user_profile/',views.user_profile,name='user_profile'),
 ]

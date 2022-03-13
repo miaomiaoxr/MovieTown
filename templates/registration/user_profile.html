@@ -1,0 +1,24 @@
+{% extends 'movie/base.html' %}
+
+{% block title_block %}
+    user_profile
+{% endblock title_block %}
+
+{% block body_block %}
+    {% if user.is_authenticated %}
+        <h1>Hello {{user.username}}</h1>
+        <a href="{% url 'auth_password_change' %}">Change password</a><br />
+        
+            {% if comments %}
+            <ul>
+                {% for c in comments %}
+                <li>Text: {{ c.text }}, Movie:{{c.movie}}, Liked_flag:{{c.liked_flag}}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <strong>You don't have any comments yet, leave some!</strong><br />
+            {% endif %}
+        
+        
+    {% endif %}
+{% endblock body_block %}

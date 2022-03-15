@@ -12,7 +12,7 @@
             {% if comments %}
             <ul>
                 {% for c in comments %}
-                <li>Text: {{ c.text }}, Movie:{{c.movie}}, Liked_flag:{{c.liked_flag}}</li>
+                <li>Text: {{ c.text }}, Movie:{{c.movie}}, Liked_flag:{{c.liked_flag}}<button>Delete</button></li>
                 {% endfor %}
             </ul>
             {% else %}

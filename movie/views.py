@@ -1,11 +1,19 @@
-from xml.etree.ElementTree import Comment
 from django.shortcuts import render
-from django.http import HttpResponse,Http404
+from django.http import HttpResponse,Http404,JsonResponse
 from django.shortcuts import redirect
 from movie.models import Comment
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
+def delete_comments_user_profile(request,pk):
+    if request.is_ajax():
+        comment = Comment.objects.get(pk=pk)
+        comment.delete()
+        return JsonResponse({"message":"success"})
+    
+    return JsonResponse({"message":"Wrong Route"})
+
 @login_required
 def user_profile(request):
 
@@ -21,11 +29,7 @@ def user_profile(request):
         return render(request,'registration/user_profile.html',context=context_dict) 
     
     if request.method == 'DELETE':
-        try:
-            c = Comment.objects.get(user=request.user,movie=request.movie)
-        except Comment.DoesNotExist:
-            raise Http404("No Comment matches the given query.")
-        c.delete()
+        
         return HttpResponse('ok')
 
 

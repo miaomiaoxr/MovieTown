@@ -1,4 +1,5 @@
 {% extends 'movie/base.html' %}
+{% load staticfiles %}
 
 {% block title_block %}
     user_profile
@@ -12,7 +13,7 @@
             {% if comments %}
             <ul>
                 {% for c in comments %}
-                <li>Text: {{ c.text }}, Movie:{{c.movie}}, Liked_flag:{{c.liked_flag}}<button>Delete</button></li>
+                <li class='record'>Text: {{ c.text }}, Movie:{{c.movie}}, Liked_flag:{{c.liked_flag}}<a href="{% url 'comment_delete' c.pk %}" class="delete_link">Delete</a></li>
                 {% endfor %}
             </ul>
             {% else %}
@@ -22,3 +23,8 @@
         
     {% endif %}
 {% endblock body_block %}
+
+{% block script_block %}
+<script src="{% static 'js/delete_comment.js' %}"></script>
+{% endblock script_block %}
+

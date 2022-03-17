@@ -1,0 +1,50 @@
+
+{% extends 'movie/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    {{category.name}}
+{% endblock title_block %}
+
+
+
+{% block body_block %}
+    {% if movies %}
+        <ul>
+            {% for movie in movies %}
+                <li>
+                    <a href="/movie/{{ movie.slug }}"><img src="{{movie.movie_image.url}}" alt="{{ movie.name }}"/></a>
+                    <a href="/movie/{{ movie.slug }}">
+                        <p>{{ movie.name }}</p>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no movies present.</strong>
+    {% endif %}
+
+    <div id="pages" class="text-center" >
+        <nav>
+            <ul class="pagination">
+                <li class="step-links">
+                {% if movies.has_previous %}
+                    <a class='active' href="?page={{ movies.previous_page_number }}">previous&nbsp;</a>
+                {% endif %}
+
+                <span class="current">
+                    page {{ movies.number }} of {{ movies.paginator.num_pages }}</span>
+
+                {% if movies.has_next %}
+                    <a class='active' href="?page={{ movies.next_page_number }}">&nbsp;next</a>
+                {% endif %}
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+
+{% endblock body_block %}
+
+    

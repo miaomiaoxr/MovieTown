@@ -1,0 +1,32 @@
+{% extends 'movie/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Index
+{% endblock title_block %}
+
+{% block body_block %}
+    {% if movie %}
+    <h1>{{ movie.name }}</h1>
+    <h2>Number of Liked:{{ count }}</h2>
+            <ul>
+                    <li><img src="{{movie.movie_image.url}}" alt="Picture of Movie"/></li>
+                    <li>director : {{ movie.director }}</a></li>
+                    <li>lead_actor : {{ movie.lead_actor }}</a></li>
+                    <li>description :{{ movie.description }}</a></li>
+                    <li>pub_date :{{ movie.pub_date }}</a></li>
+                    <li>upload_date :{{ movie.upload_date }}</a></li>
+            </ul>
+        {% if comments %}
+            <ul>
+                {% for comment in comments %}
+                    <li>{{ comment.user }} : {{ comment.text }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>No pages currently in category.</strong>
+        {% endif %}
+    {% else %}
+        The specified category does not exist.
+    {% endif %}
+{% endblock body_block %}

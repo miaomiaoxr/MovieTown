@@ -63,7 +63,7 @@ def show_category(request, category_name_slug):
         movies = Movie.objects.filter(category=category)
         
         # Display 1 item per page as specified, split
-        paginator = Paginator(movies, 12) 
+        paginator = Paginator(movies, 2) 
         
         
         page = request.GET.get('page', default = '1')
@@ -72,13 +72,13 @@ def show_category(request, category_name_slug):
             movies = paginator.page(page)
         except PageNotAnInteger:
             # If the number of pages requested is not an integer, the first page is returned.
-            books = paginator.page(1)
+            movies = paginator.page(1)
         except InvalidPage:
             # If the requested page does not exist, redirect the page
             return HttpResponse('The content of the page cannot be found')
         except EmptyPage:
             # If the requested page is not within the legal page count, the last page of the result is returned.
-            books = paginator.page(paginator.num_pages)
+            movies = paginator.page(paginator.num_pages)
             
         context_dict['categories'] = category_list
         context_dict['category'] = category
@@ -108,8 +108,9 @@ def moviepage(request,movie_name_slug):
         comments= Comment.objects.filter(movie=category)
         like_count=Comment.objects.filter(movie=category,liked_flag=True).count()
         if request.user.is_authenticated:
-            result= Comment.objects.filter(movie=category,user=request.user)[0]
-            context_dict['flag1']=result.liked_flag
+            result= Comment.objects.filter(movie=category,user=request.user)
+            if result:
+                context_dict['flag1']=result[0].liked_flag
         # Retrieve all of the associated pages.
         # The filter() will return a list of page objects or an empty list.
         # Adds our results list to the template context under name pages.

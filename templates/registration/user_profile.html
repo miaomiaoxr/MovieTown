@@ -13,14 +13,16 @@
             {% if comments %}
             <ul>
                 {% for c in comments %}
-                <li class='record'>Text: {{ c.text }}, Movie:{{c.movie}}, Liked_flag:{{c.liked_flag}}<a href="{% url 'comment_delete' c.pk %}" class="delete_link">Delete</a></li>
+                <li class='record'>Text: {{ c.text }}, Movie:{{c.movie}}, Liked_flag:{{c.liked_flag}}<button href="{% url 'comment_delete' c.pk %}" class="delete_link">Delete</button></li>
                 {% endfor %}
             </ul>
             {% else %}
             <strong>You don't have any comments yet, leave some!</strong><br />
             {% endif %}
-        
-        
+        {% if user.is_superuser %}
+            <hr />
+            <p>Hello admin, got some new movies today?<a href="https://www.google.com/">ADD Movie</a></p>
+        {% endif %}
     {% endif %}
 {% endblock body_block %}
 

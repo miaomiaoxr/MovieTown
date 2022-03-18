@@ -48,7 +48,7 @@ class Comment(models.Model):
 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    text = models.CharField(max_length=COMMENT_MAX_LENGTH)
+    text = models.CharField(max_length=COMMENT_MAX_LENGTH,blank=True)
     liked_flag = models.BooleanField(default=False)
 
     def __str__(self) :

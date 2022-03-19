@@ -1,5 +1,5 @@
 {% extends 'movie/base.html' %}
-{% load staticfiles %}
+{% load static %}
 
 {% block title_block %}
     user_profile
@@ -7,20 +7,36 @@
 
 {% block body_block %}
     {% if user.is_authenticated %}
+        <div class="container">
+            <div class="row justify-content-md-center">
+                
         <h1>Hello {{user.username}}</h1>
-        <a href="{% url 'auth_password_change' %}">Change password</a><br />
         
             {% if comments %}
-            <ul>
+            
+            <ol class="list-group list-group-numbered">
                 {% for c in comments %}
-                <li class='record'>Text: {{ c.text }}, Movie:{{c.movie}}, Liked_flag:{{c.liked_flag}}<a href="{% url 'comment_delete' c.pk %}" class="delete_link">Delete</a></li>
+                <li class="record list-group-item d-flex justify-content-between col col-lg-12 ">
+                    <div class="ms-2 me-auto">
+                        <a class="fw-bold" href="{% url 'movie:moviepage' c.movie.slug %}" >{{c.movie}}</a><br />
+                      {% comment %} <div class="fw-bold">{{c.movie}}</div> {% endcomment %}
+                      {{c.text}}
+                    </div>
+                    <span class="badge bg-primary "><button href="{% url 'comment_delete' c.pk %}" class="delete_link">Delete</button></span>
+                  </li>
                 {% endfor %}
-            </ul>
+            </ol>
+        
             {% else %}
             <strong>You don't have any comments yet, leave some!</strong><br />
             {% endif %}
-        
-        
+        </div>
+    </div>
+        {% if user.is_superuser %}
+            <hr />
+            <p>Hello admin, got some new movies today?<a href="{% url 'add_movie' %}">ADD Movie</a></p>
+        {% endif %}
+        <p>Want to change your password?<a href="{% url 'auth_password_change' %}">Change password</a></p>
     {% endif %}
 {% endblock body_block %}
 

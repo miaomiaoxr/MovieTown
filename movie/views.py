@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from movie.models import Category
 from movie.models import Movie
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
-from movie.bing_search import run_query
 from django.db.models import Q
 from django.contrib import messages
 

@@ -43,7 +43,7 @@ def add_movie(request):
         else:
             print(form.errors)
     
-    return render(request,'movie/add_movie.html',{'form':form})
+    return render(request,'movie/add_movie.html',{'form':form,'categories':Category.objects.all()})
 
 @login_required
 def delete_comments_user_profile(request,pk):

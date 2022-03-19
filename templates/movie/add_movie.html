@@ -1,5 +1,6 @@
 {% extends 'movie/base.html' %}
-{% load staticfiles %}
+{% load static %}
+{% load crispy_forms_tags %}
 
 {% block title_block %}
     Add a Movie
@@ -7,13 +8,69 @@
 
 {% block body_block %}
 {% if user.is_superuser %}
-    <h1>Add a Movie</h1>
-        <div>
-            <form id="movie_form" method="post" action="{% url 'add_movie' %}" enctype="multipart/form-data">
+    
+        <div class="container">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-9">
+                    <h1>Add a Movie</h1>
+            <form id="movie_form" method="post" action="{% url 'add_movie' %}"  enctype="multipart/form-data">
                 {% csrf_token %}
-                {{form.as_p}}
-                <input type="submit" name="submit" value="Add Movie" />
+                
+                <div class='col-md-6 mb-0'>
+                    {{ form.name|as_crispy_field }}
+                </div>
+                <div class='col-md-6 mb-0'>
+                    {{ form.director|as_crispy_field }}
+                </div>
+                <div class='col-md-6 mb-0'>
+                    {{ form.lead_actor|as_crispy_field }}
+                </div>
+                <div class='col-md-6 mb-0'>
+                    {{ form.movie_image|as_crispy_field }}
+                </div>
+                <div class='col-md-6 mb-0'>
+                    {{ form.description|as_crispy_field }}
+                </div>
+                <div class='col-md-6 mb-0'>
+                    {{ form.pub_date|as_crispy_field }}
+                </div>
+                <div class='col-md-6 mb-0'>
+                    {{ form.category|as_crispy_field }}
+                </div>
+                <input type="submit" class="btn btn-primary" name="submit" value="Add Movie" />
             </form>
+        </div>
+        </div>
         </div>
 {% endif %}
 {% endblock %}
+
+{% comment %} 
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group col-md-6 mb-0">
+        {{ form.email|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-6 mb-0">
+        {{ form.password|as_crispy_field }}
+      </div>
+    </div>
+    {{ form.address_1|as_crispy_field }}
+    {{ form.address_2|as_crispy_field }}
+    <div class="form-row">
+      <div class="form-group col-md-6 mb-0">
+        {{ form.city|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-4 mb-0">
+        {{ form.state|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-2 mb-0">
+        {{ form.zip_code|as_crispy_field }}
+      </div>
+    </div>
+    {{ form.check_me_out|as_crispy_field }}
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </form> {% endcomment %}

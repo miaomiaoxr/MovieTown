@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'movie',
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -132,3 +134,10 @@ LOGIN_URL = 'auth_login'
 REGISTRATION_OPEN = True
 REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = 'movie:index'
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

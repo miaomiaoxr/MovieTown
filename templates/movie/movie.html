@@ -7,26 +7,84 @@
 
 {% block body_block %}
     {% if movie %}
-    <h1>{{ movie.name }}</h1>
-    <h2>Number of Liked:{{ count }}</h2>
-            <ul>
-                    <li><img src="{{movie.movie_image.url}}" alt="Picture of Movie"/></li>
-                    <li>director : {{ movie.director }}</a></li>
-                    <li>lead_actor : {{ movie.lead_actor }}</a></li>
-                    <li>description :{{ movie.description }}</a></li>
-                    <li>pub_date :{{ movie.pub_date }}</a></li>
-                    <li>upload_date :{{ movie.upload_date }}</a></li>
-            </ul>
-        {% if comments %}
-            <ul>
-                {% for comment in comments %}
-                    <li>{{ comment.user }} : {{ comment.text }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>No pages currently in category.</strong>
-        {% endif %}
+    <div class="jumbotron p-4">
+        <div class="container">
+            <h1 class="jumbotron jumbotron-fluid">{{ movie.name }}</h1>
+        </div>
+    </div>
     {% else %}
         The specified category does not exist.
     {% endif %}
+    <h2 class="h2">Number of Liked:{{ count }}</h2>
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <img src="{{movie.movie_image.url}}" alt="Picture of Movie"/>
+          </div>
+          <div class="col">
+            
+                <ul class="list-group">
+                    <li class="list-group-item">Director : {{ movie.director }}</li>
+                    <li class="list-group-item">Lead_actor : {{ movie.lead_actor }}</li>
+                    <li class="list-group-item">Description :{{ movie.description }}</li>
+                    <li class="list-group-item">Pub_date :{{ movie.pub_date }}</li>
+                    <li class="list-group-item">Upload_date :{{ movie.upload_date }}</li>
+                
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="list-group list-group-checkable"></div>
+                {% if comments %}
+                {% for comment in comments %}
+                    {% if comment.text %}
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                          <h5 class="mb-1">{{ comment.user }}</h5>
+                        </div>
+                        <p class="mb-1">{{ comment.text }}</p>
+                      </a>
+                      </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <strong>No pages currently in category.</strong>
+            {% endif %}
+    
+            {% if user.is_authenticated %}
+                <form action='/movie/submit/{{ movie.slug }}' method='GET'>
+                    <label for="txt_comment">Submit your comment here:</label></br>
+                    <input type="text" id="comment_txt" name="comment_txt"></br>
+                    <button type='submit'> submit</button>
+                </form>
+            {% else %}
+                <p>Please login to submit your comment</p>
+            {% endif %}
+            {% if messages %}
+                <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+            </div>
+        </div>
+    </div>
+            
+        {% if user.is_authenticated %}
+            {% if flag1 %}
+                <form action='/movie/like/{{ movie.slug }}' method='GET'>
+                    <button type='submit'> Dislike This Movie</button>
+                </form>
+            {% else %}
+                <form action='/movie/like/{{ movie.slug }}' method='GET'>
+                    <button type='submit'> Like This Movie</button>
+                </form>
+            {% endif %}
+        {% else %}
+            <p>Please login to like this movie</p>
+        {% endif %}
+
+        
 {% endblock body_block %}

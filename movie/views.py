@@ -1,13 +1,16 @@
+#from email import message
+from turtle import update
 from django.shortcuts import render
-from django.http import HttpResponse,Http404,JsonResponse
+from django.http import HttpResponse,Http404,JsonResponse,HttpResponseRedirect
 from django.shortcuts import redirect
-from movie.models import Comment
+from movie.models import Comment,Movie
 from django.contrib.auth.decorators import login_required
 from movie.models import Category
 from movie.models import Movie
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
 from movie.bing_search import run_query
 from django.db.models import Q
+from django.contrib import messages
 
 # Create your views here.
 @login_required
@@ -97,6 +100,9 @@ def moviepage(request,movie_name_slug):
     # Create a context dictionary which we can pass
     # to the template rendering engine.
     context_dict = {}
+    context_dict['flag1']=False
+    category_list = Category.objects.all()
+    context_dict['categories'] = category_list
     try:
         # Can we find a category name slug with the given name?
         # If we can't, the .get() method raises a DoesNotExist exception.
@@ -104,6 +110,9 @@ def moviepage(request,movie_name_slug):
         category = Movie.objects.get(slug=movie_name_slug)
         comments= Comment.objects.filter(movie=category)
         like_count=Comment.objects.filter(movie=category,liked_flag=True).count()
+        if request.user.is_authenticated:
+            result= Comment.objects.filter(movie=category,user=request.user)[0]
+            context_dict['flag1']=result.liked_flag
         # Retrieve all of the associated pages.
         # The filter() will return a list of page objects or an empty list.
         # Adds our results list to the template context under name pages.
@@ -169,7 +178,38 @@ def search(request):
     return render(request, 'movie/search_css.html', context = context_dict)
 
 
+@login_required
+def submit_func(request,movie_name_slug):
+    user=request.user
+    movie = Movie.objects.get(slug=movie_name_slug)
+    comments= Comment.objects.filter(movie=movie,user=user)
+    if comments:
+        if request.GET['comment_txt']!="":
+            comment=Comment.objects.get(movie=movie,user=user)
+            comment.text=request.GET['comment_txt']
+            comment.save()
+        else:
+            messages.info(request,"Comment cannot be empty")
+    else:
+        if request.GET['comment_txt']!="":
+            comment=Comment.objects.create(movie=movie,user=user)
+            comment.text=request.GET['comment_txt']
+            comment.save()
+        else:
+            messages.info(request,"Comment cannot be empty")
+    return moviepage(request,movie_name_slug)
 
 
-        
-    
+@login_required
+def like_func(request,movie_name_slug):
+    user=request.user
+    movie = Movie.objects.get(slug=movie_name_slug)
+    comment,created= Comment.objects.get_or_create(movie=movie,user=user)
+    if created:
+        comment.liked_flag=True
+        comment.save()
+    else:
+        comment.liked_flag=not comment.liked_flag
+        comment.save()
+    return moviepage(request,movie_name_slug)
+

@@ -6,12 +6,13 @@
 {% endblock title_block %}
 
 {% block body_block %}
-    <h2>Top 3</h2>
+    
     {% if movies_top3 %}
         
         <div class="container">
             <div class="row">
                 <div class="col-10">
+                    <h2 style="text-align: center">Top 3</h2>
                     <ul>  
                     {% for movie in movies_top3 %}
                             <div class="container">

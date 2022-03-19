@@ -1,0 +1,27 @@
+{% extends 'movie/base.html' %} 
+{% load staticfiles %}
+
+{% block title_block %} 
+    Search
+{% endblock %}
+
+{% block body_block %}
+    {% if movies %}
+        <ul>
+            {% for movie in movies %}
+                <div>
+                    <img src="{{ movie.movie_image.url }}" alt="{{ movie.name }}" weight=200 height=200/>
+                </div>
+                <div>
+                    <span>Name:</span> {{ movie.name }}<br>
+                    <span>Director:</span> {{ movie.director }}<br>
+                    <span>Lead Actor:</span> {{ movie.lead_actor }}<br>
+                    <span>Description:</span> {{ movie.description }}<br>
+                    <span>Pub Date:</span> {{ movie.pub_date }}<br>
+                </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no movies present.</strong>
+    {% endif %}
+{% endblock body_block %}

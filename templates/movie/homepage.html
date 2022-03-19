@@ -1,0 +1,78 @@
+{% extends 'movie/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    HomePage
+{% endblock title_block %}
+
+{% block body_block %}
+    {% if movies_top3 %}
+        <ul>
+            {% for movie in movies_top3 %}
+            <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <img src="{{ movie.movie_image.url }}" alt="{{ movie.name }}" weight=200 height=200/>
+                  </div>
+                  <div class="col">
+                    <span>Name:</span> {{ movie.name }}<br>
+                    <span>Director:</span> {{ movie.director }}<br>
+                    <span>Lead Actor:</span> {{ movie.lead_actor }}<br>
+                    <span>Description:</span> {{ movie.description }}<br>
+                    <span>Pub Date:</span> {{ movie.pub_date }}<br>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no movies present.</strong>
+    {% endif %}
+
+    <h2>Top 4~10</h2>
+    <div>
+    {% if movies_4to10 %}
+        <ul>
+            {% for movie in movies_4to10 %}
+                <div>
+                    <img src="{{ movie.movie_image.url }}" alt="{{ movie.name }}" weight=200 height=200/>
+                </div>
+                <div>
+                    <span>Name:</span> {{ movie.name }}<br>
+                    <span>Director:</span> {{ movie.director }}<br>
+                    <span>Lead Actor:</span> {{ movie.lead_actor }}<br>
+                    <span>Description:</span> {{ movie.description }}<br>
+                    <span>Pub Date:</span> {{ movie.pub_date }}<br>
+                </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no top4-10 movies present.</strong>
+    {% endif %}
+    </div>
+
+    <h2>Recently Updated</h2>
+    <div>
+    {% if movies_update %}
+        <ul>
+            {% for movie in movies_update %}
+                <div>
+                    <img src="{{ movie.movie_image.url }}" alt="{{ movie.name }}" weight=200 height=200/>
+                </div>
+                <div>
+                    <span>Name:</span> {{ movie.name }}<br>
+                    <span>Director:</span> {{ movie.director }}<br>
+                    <span>Lead Actor:</span> {{ movie.lead_actor }}<br>
+                    <span>Description:</span> {{ movie.description }}<br>
+                    <span>Pub Date:</span> {{ movie.pub_date }}<br>
+                </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no movies updated recently.</strong>
+    {% endif %}
+    </div>
+
+{% endblock body_block %}
+
+    

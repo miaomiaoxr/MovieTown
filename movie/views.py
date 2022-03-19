@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from movie.models import Category
 from movie.models import Movie
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
+from movie.bing_search import run_query
+from django.db.models import Q
 
 # Create your views here.
 @login_required
@@ -89,6 +91,7 @@ def show_category(request, category_name_slug):
         
     return render(request, 'movie/category.html', context = context_dict)
 
+most_like_list = None
 
 def moviepage(request,movie_name_slug):
     # Create a context dictionary which we can pass
@@ -116,7 +119,42 @@ def moviepage(request,movie_name_slug):
         # the template will display the "no category" message for us.
         context_dict['movie'] = None
         # Go render the response and return it to the client.
+
     return render(request, 'movie/movie.html', context=context_dict)
+
+
+def homepage(request):
+    context_dict = {}
+    movies = None
+    try:
+        movies_top3 = Movie.objects.all()[:3]
+        movies_4_10 = Movie.objects.all()[4:10]
+        movies_update = Movie.objects.order_by('pub_date')[:5]
+        context_dict['movies_top3'] = movies_top3
+        context_dict['movies_4to10'] = movies_4_10
+        context_dict['movies_update'] = movies_update
+
+    except Movie.DoesNotExist:
+        context_dict['movies'] = None
+        context_dict['movies_4to10'] = None
+        context_dict['movies_update'] = None
+        
+    return render(request, 'movie/homepage.html', context = context_dict)
+
+
+def search(request):
+    context_dict = {}
+    movies = None
+
+    if request.GET['search_txt']!="":
+        query=request.GET['search_txt']
+        movies = Movie.objects.filter(Q(name__icontains=query) | Q(director__icontains=query) | Q(lead_actor__icontains=query) | Q(description__icontains=query) | Q(pub_date__icontains=query))
+    
+    context_dict['movies'] = movies
+    return render(request, 'movie/search_css.html', context = context_dict)
+
+
+
 
         
     

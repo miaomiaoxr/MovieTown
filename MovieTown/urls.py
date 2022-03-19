@@ -20,7 +20,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.homepage, name='homepage'),
+    path('search/', views.search, name='searchpage'),
     path('movie/', include('movie.urls')),
     path('admin/', admin.site.urls),
     path('accounts/',include('registration.backends.simple.urls')),

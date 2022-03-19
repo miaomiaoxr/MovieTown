@@ -14,12 +14,6 @@
     </head>
     <header>
         {% block header_block %}
-            <ul>
-                <li>
-                    <a href="/">Homepage</a>
-                </li>
-            </ul>
-
             {% if categories %}
                 <ul>
                     {% for category in categories %}
@@ -32,10 +26,12 @@
                 <strong>There are no categories present.</strong>
             {% endif %}
 
-            <form action="" target="_blank">
-                <input type="search" class="header-search" maxlength="32px" placeholder="">
-                <input type="submit" value="">
+            <form action="/search" method="GET">
+                <label for="txt_search">Search here:</label></br>
+                <input type="text" id="search_txt" name="search_txt"></br>
+                <button type="search">search</button>
             </form>
+
             <div class="h-user-info">
                 <a href="denglu.html" class="header-li-wh">
                     <img src="../img/imgPC-header/avatar.png" alt="头像">

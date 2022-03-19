@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from movie.models import Category
 from movie.models import Movie
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
-from django.db.models import Q
-from django.contrib import messages
+from django.db.models import Q,Count
+from django.contrib import messages  
 
 # Create your views here.
 @login_required
@@ -99,7 +99,7 @@ def show_category(request, category_name_slug):
         movies = Movie.objects.filter(category=category)
         
         # Display 1 item per page as specified, split
-        paginator = Paginator(movies, 12) 
+        paginator = Paginator(movies, 8) 
         
         
         page = request.GET.get('page', default = '1')
@@ -171,8 +171,16 @@ def homepage(request):
     context_dict = {}
     movies = None
     try:
-        movies_top3 = Movie.objects.all()[:3]
-        movies_4_10 = Movie.objects.all()[3:9]
+        movies = Comment.objects.select_related('movie').values('movie').annotate(dcount=Count('movie')).order_by('-dcount')
+
+        movies_top3 = []
+        mt3 = movies[:3]
+        for mt in mt3:
+            movies_top3.append(Movie.objects.get(pk=mt.get('movie')))
+        mt10 = movies[3:9]
+        movies_4_10 = []
+        for mt in mt10:
+            movies_4_10.append(Movie.objects.get(pk=mt.get('movie')))
         movies_update = Movie.objects.order_by('pub_date')[:5]
         context_dict['categories'] = Category.objects.all()
         context_dict['movies_top3'] = movies_top3
@@ -193,9 +201,10 @@ def search(request):
     try:
         if request.GET['search_txt']!="":
             query=request.GET['search_txt']
+            context_dict['query'] = query
             movies = Movie.objects.filter(Q(name__icontains=query) | Q(director__icontains=query) | Q(lead_actor__icontains=query) | Q(description__icontains=query) | Q(pub_date__icontains=query))
         
-        paginator = Paginator(movies, 12) 
+        paginator = Paginator(movies,8) 
         page = request.GET.get('page', default = '1')
         
         try:

@@ -22,7 +22,7 @@
           <div class="col">
             <h5 class="h2">Number of Stars:{{ count }}</h5>
             <div>
-                <img src="{{movie.movie_image.url}}" alt="Picture of Movie"/>
+                <img src="{{movie.movie_image.url}}" alt="Picture of Movie" height=600px width=400px />
                 {% if user.is_authenticated %}
                 {% if flag1 %}
                     <form action='/movie/like/{{ movie.slug }}' method='GET'>

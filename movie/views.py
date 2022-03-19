@@ -63,7 +63,7 @@ def show_category(request, category_name_slug):
         movies = Movie.objects.filter(category=category)
         
         # Display 1 item per page as specified, split
-        paginator = Paginator(movies, 2) 
+        paginator = Paginator(movies, 12) 
         
         
         page = request.GET.get('page', default = '1')

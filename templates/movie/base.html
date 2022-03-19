@@ -18,6 +18,11 @@
         <link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom styles for this template -->
         <link href="https://getbootstrap.com/docs/5.1/examples/dashboard/dashboard.css" rel="stylesheet">
+        
+        {% block funtion_block %}
+        
+        {% endblock %}
+
     </head>
     <header>
         {% block header_block %}
@@ -45,19 +50,7 @@
                 </li>
             </ul> -->
 
-            
-
-            <form action="" target="_blank">
-                <input type="search" class="header-search" maxlength="32px" placeholder="">
-                <input type="submit" value="">
-            </form>
-            <div class="h-user-info">
-                <a href="denglu.html" class="header-li-wh">
-                    <img src="../img/imgPC-header/avatar.png" alt="头像">
-                    <span></span>
-                    <p>Login</p>
-                </a>
-            </div>
+        
         {% endblock %}
     </header>
 

@@ -145,12 +145,27 @@ def homepage(request):
 def search(request):
     context_dict = {}
     movies = None
-
-    if request.GET['search_txt']!="":
-        query=request.GET['search_txt']
-        movies = Movie.objects.filter(Q(name__icontains=query) | Q(director__icontains=query) | Q(lead_actor__icontains=query) | Q(description__icontains=query) | Q(pub_date__icontains=query))
-    
-    context_dict['movies'] = movies
+    try:
+        if request.GET['search_txt']!="":
+            query=request.GET['search_txt']
+            movies = Movie.objects.filter(Q(name__icontains=query) | Q(director__icontains=query) | Q(lead_actor__icontains=query) | Q(description__icontains=query) | Q(pub_date__icontains=query))
+        
+        paginator = Paginator(movies, 12) 
+        page = request.GET.get('page', default = '1')
+        
+        try:
+            movies = paginator.page(page)
+        except PageNotAnInteger:
+            # If the number of pages requested is not an integer, the first page is returned.
+            movies = paginator.page(1)
+        except InvalidPage:
+            # If the requested page does not exist, redirect the page
+            return HttpResponse('The content of the page cannot be found')
+        except EmptyPage:
+            movies = paginator.page(paginator.num_pages)
+        context_dict['movies'] = movies
+    except Category.DoesNotExist:
+        context_dict['movies'] = None
     return render(request, 'movie/search_css.html', context = context_dict)
 
 

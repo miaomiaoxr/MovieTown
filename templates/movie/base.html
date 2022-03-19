@@ -4,43 +4,61 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Jekyll v3.8.5">
+        <link rel="icon" href="{% static 'images/favicon.ico' %}">
         <title>
             MovieTown -
             {% block title_block %}
                 Welcome to MovieTown!
             {% endblock %}
         </title>
+        <form action="/search" method="GET">
+            <label for="txt_search">Search here:</label></br>
+            <input type="text" id="search_txt" name="search_txt"></br>
+            <button type="search">search</button>
+        </form>
+        <link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="https://getbootstrap.com/docs/5.1/examples/dashboard/dashboard.css" rel="stylesheet">
         
+        {% block funtion_block %}
+        
+        {% endblock %}
+
     </head>
     <header>
         {% block header_block %}
-            {% if categories %}
-                <ul>
-                    {% for category in categories %}
-                        <li>
-                            <a href="/movie/category/{{ category.slug }}">{{ category.name }}</a>
-                        </li>
-                    {% endfor %}
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">
+            <a class="navbar-brand p-2" href="{% url 'movie:index' %}">MovieTown</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    {% if categories %}
+                        {% for category in categories %}
+                            <li class="nav-item"><a class="nav-link" href="/movie/category/{{ category.slug }}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    {% else %}
+                        <strong>There are no categories present.</strong>
+                    {% endif %}   
                 </ul>
-            {% else %}
-                <strong>There are no categories present.</strong>
-            {% endif %}
+        </nav>
 
-            <form action="/search" method="GET">
-                <label for="txt_search">Search here:</label></br>
-                <input type="text" id="search_txt" name="search_txt"></br>
-                <button type="search">search</button>
-            </form>
+            <!-- <ul>
+                <li>
+                    <a href="/">Homepage</a>
+                </li>
+            </ul> -->
 
-            <div class="h-user-info">
-                <a href="denglu.html" class="header-li-wh">
-                    <img src="../img/imgPC-header/avatar.png" alt="头像">
-                    <span></span>
-                    <p>Login</p>
-                </a>
-            </div>
+        
         {% endblock %}
     </header>
+
     <body>
         <div>
         {% block body_block %}
@@ -64,4 +82,6 @@
         {% block script_block %}
         {% endblock script_block %}
     </body>
+
 </html>
+

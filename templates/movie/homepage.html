@@ -6,73 +6,77 @@
 {% endblock title_block %}
 
 {% block body_block %}
+    <h2>Top 3</h2>
     {% if movies_top3 %}
-        <ul>
-            {% for movie in movies_top3 %}
-            <div class="container">
-                <div class="row">
-                  <div class="col">
-                    <img src="{{ movie.movie_image.url }}" alt="{{ movie.name }}" weight=200 height=200/>
-                  </div>
-                  <div class="col">
-                    <span>Name:</span> {{ movie.name }}<br>
-                    <span>Director:</span> {{ movie.director }}<br>
-                    <span>Lead Actor:</span> {{ movie.lead_actor }}<br>
-                    <span>Description:</span> {{ movie.description }}<br>
-                    <span>Pub Date:</span> {{ movie.pub_date }}<br>
-                  </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-10">
+                    <ul>  
+                    {% for movie in movies_top3 %}
+                            <div class="container">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="element" style="display: flex; flex-direction: column; align-items: center; ">
+                                    <img src="{{ movie.movie_image.url }}" alt="{{ movie.name }}" weight=300 height=400/>
+                                    </br>
+
+                                    <span style="text-align: center">
+                                        <a href="/movie/{{ movie.slug }}" onmouseover="this.style.color='red'" onmouseout="this.style.color='gold'" style="text-decoration: none; font-size:16px; color: gold;">
+                                            {{ movie.name }}
+                                        </a>
+                                    </span>
+                                </div>
+                                </div> 
+                                <div class="col-6" >
+                                    <ul class="list-group">
+                                        <li class="list-group-item">director : {{ movie.director }}</a></li>
+                                        <li class="list-group-item">lead_actor : {{ movie.lead_actor }}</a></li>
+                                        <li class="list-group-item">pub_date :{{ movie.pub_date }}</a></li>
+                                        <li class="list-group-item">upload_date :{{ movie.upload_date }}</a></li>
+                                        <li class="list-group-item">description :{{ movie.description }}</a></li>
+                                    </ul>
+                                </div>  
+                            </div>
+                            </br>
+                    </div>
+                    {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-2">
+                    <div class="row">
+                        <h2>Top 4~10</h2>
+                        {% if movies_4to10 %}
+                            <ul>
+                                {% for movie in movies_4to10 %}
+                                    <div>
+                                        {{ movie.name }}<br>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <strong>There are no top4-10 movies present.</strong>
+                        {% endif %}
+                    </div>
+                    <div class="row">           
+                        <h2>Recently Updated</h2>
+                        {% if movies_update %}
+                            <ul>
+                                {% for movie in movies_update %}
+                                    <div>
+                                        {{ movie.name }}<br>
+                                    </div>
+                                    {% endfor %}
+                            </ul>
+                        {% else %}
+                            <strong>There are no movies updated recently.</strong>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <strong>There are no movies present.</strong>
+        </div>
     {% endif %}
-
-    <h2>Top 4~10</h2>
-    <div>
-    {% if movies_4to10 %}
-        <ul>
-            {% for movie in movies_4to10 %}
-                <div>
-                    <img src="{{ movie.movie_image.url }}" alt="{{ movie.name }}" weight=200 height=200/>
-                </div>
-                <div>
-                    <span>Name:</span> {{ movie.name }}<br>
-                    <span>Director:</span> {{ movie.director }}<br>
-                    <span>Lead Actor:</span> {{ movie.lead_actor }}<br>
-                    <span>Description:</span> {{ movie.description }}<br>
-                    <span>Pub Date:</span> {{ movie.pub_date }}<br>
-                </div>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <strong>There are no top4-10 movies present.</strong>
-    {% endif %}
-    </div>
-
-    <h2>Recently Updated</h2>
-    <div>
-    {% if movies_update %}
-        <ul>
-            {% for movie in movies_update %}
-                <div>
-                    <img src="{{ movie.movie_image.url }}" alt="{{ movie.name }}" weight=200 height=200/>
-                </div>
-                <div>
-                    <span>Name:</span> {{ movie.name }}<br>
-                    <span>Director:</span> {{ movie.director }}<br>
-                    <span>Lead Actor:</span> {{ movie.lead_actor }}<br>
-                    <span>Description:</span> {{ movie.description }}<br>
-                    <span>Pub Date:</span> {{ movie.pub_date }}<br>
-                </div>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <strong>There are no movies updated recently.</strong>
-    {% endif %}
-    </div>
-
 {% endblock body_block %}
+
 
     

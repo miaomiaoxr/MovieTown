@@ -21,7 +21,7 @@
             {% endif %}
         {% if user.is_superuser %}
             <hr />
-            <p>Hello admin, got some new movies today?<a href="https://www.google.com/">ADD Movie</a></p>
+            <p>Hello admin, got some new movies today?<a href="{% url 'add_movie' %}">ADD Movie</a></p>
         {% endif %}
     {% endif %}
 {% endblock body_block %}

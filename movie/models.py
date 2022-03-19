@@ -1,3 +1,4 @@
+from datetime import date
 from distutils.command.upload import upload
 from lib2to3.pgen2.token import COMMENT
 from tabnanny import verbose
@@ -36,6 +37,7 @@ class Movie(models.Model):
 
     def save(self,*args,**kwargs):
         self.slug = slugify(self.name)
+        self.upload_date = date.today()
         super(Movie,self).save(*args,**kwargs)
 
     

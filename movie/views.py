@@ -1,8 +1,8 @@
 #from email import message
-from turtle import update
 from django.shortcuts import render
 from django.http import HttpResponse,Http404,JsonResponse,HttpResponseRedirect
 from django.shortcuts import redirect
+from movie.forms import MovieForm
 from movie.models import Comment,Movie
 from django.contrib.auth.decorators import login_required
 from movie.models import Category
@@ -11,6 +11,40 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, Invali
 from django.contrib import messages
 
 # Create your views here.
+@login_required
+def add_movie(request):
+    form = MovieForm()
+
+    if request.method == 'POST':
+        request.POST = request.POST.copy()
+        form = MovieForm(request.POST,request.FILES)
+
+        # print(type(form.data['category']))
+
+        
+        c_pk = form.data['category']
+        c_pk= Category.objects.get(pk=c_pk)
+        form.data.pop('category')
+            
+        # c = Category.objects.get_or_create(name='action')[0]
+        # p = Movie.objects.create(category=c,name=form.data['name'],pub_date = form.data['pub_date'])
+        # p.director = form.data['director']
+        # p.lead_actor = form.data['lead_actor']
+        # p.description = form.data['description']
+        # p.movie_image = 'movie_image/'+form.data['movie_image']
+
+            # print(type(form.data['category']))
+        if form.is_valid():
+            movie = form.save(commit=False)
+            movie.category = c_pk
+            movie.save()
+    # p.save()
+            return redirect('/movie/')
+        else:
+            print(form.errors)
+    
+    return render(request,'movie/add_movie.html',{'form':form})
+
 @login_required
 def delete_comments_user_profile(request,pk):
     if request.is_ajax():
@@ -25,6 +59,7 @@ def user_profile(request):
 
     if request.method == 'GET':
         context_dict = {}
+        context_dict['categories'] = Category.objects.all()
 
         try:
             comments = Comment.objects.filter(user=request.user)

@@ -5,44 +5,76 @@
     {{category.name}}
 {% endblock title_block %}
 
+{% block funtion_block %}
 
+function makevisible(cur,which){
+    if (which==0)
+    
+    cur.filters.alpha.opacity=100
+    else
+    cur.filters.alpha.opacity=20
+    }
+{% endblock funtion_block %}
 
 {% block body_block %}
+
+</br>
+</br>
+</br>
+
+    {% if category %}
+        <h1 style="text-align: center;">{{category.name}}</h1>
+    {% else %}
+
+    {% endif %}
+
+
     {% if movies %}
-        <ul>
-            {% for movie in movies %}
-                <li>
-                    <a href="/movie/{{ movie.slug }}"><img src="{{movie.movie_image.url}}" alt="{{ movie.name }}"/></a>
-                    <a href="/movie/{{ movie.slug }}">
-                        <p>{{ movie.name }}</p>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+    <span class="border">
+        <div class="container bg-dark bg-gradient text-dark">
+            <div class="row v-align align-items-center" style="height: 550px;">
+                {% for movie in movies %}
+                    <div class="col-6 col-sm-6 col-md-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 text-dark">
+                        <div class="element" style="display: flex; flex-direction: column; align-items: center; ">
+                            
+                            <a href="/movie/{{ movie.slug }}" style="text-decoration:none">
+                                <img src="{{movie.movie_image.url}}" class="figure-img" width="200" height="200" alt="{{ movie.name }}">
+                            </a>
+                            
+                            <span style="text-align: center; width: 150px; overflow: hidden; text-overflow: ellipsis; 
+                            display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; color: gold;">
+                                <a href="/movie/{{ movie.slug }}" onmouseover="this.style.color='red'" onmouseout="this.style.color='gold'"
+                            style="text-decoration: none; font-size:16px; color: gold;">
+                                {{ movie.name }}
+                                </a>
+                            </span>
+                            
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </span>
     {% else %}
         <strong>There are no movies present.</strong>
     {% endif %}
 
-    <div id="pages" class="text-center" >
-        <nav>
-            <ul class="pagination">
-                <li class="step-links">
-                {% if movies.has_previous %}
-                    <a class='active' href="?page={{ movies.previous_page_number }}">previous&nbsp;</a>
-                {% endif %}
 
-                <span class="current">
-                    page {{ movies.number }} of {{ movies.paginator.num_pages }}</span>
+    
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-lg justify-content-center">
+            {% if movies.has_previous %}
+                <li class="page-item"><a class='page-link' href="?page={{ movies.previous_page_number }}">previous&nbsp;</a></li>
+            {% endif %}
 
-                {% if movies.has_next %}
-                    <a class='active' href="?page={{ movies.next_page_number }}">&nbsp;next</a>
-                {% endif %}
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-
+                <li class="page-item"><a class='page-link' href="#" tabindex="-1" aria-disabled="true">{{ movies.number }} of {{ movies.paginator.num_pages }}</a></li>
+            
+            {% if movies.has_next %}
+                <li class="page-item"><a class='page-link' href="?page={{ movies.next_page_number }}">&nbsp;next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    
 
 {% endblock body_block %}
 

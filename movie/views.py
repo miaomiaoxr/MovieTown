@@ -74,13 +74,13 @@ def show_category(request, category_name_slug):
             movies = paginator.page(page)
         except PageNotAnInteger:
             # If the number of pages requested is not an integer, the first page is returned.
-            books = paginator.page(1)
+            movies = paginator.page(1)
         except InvalidPage:
             # If the requested page does not exist, redirect the page
             return HttpResponse('The content of the page cannot be found')
         except EmptyPage:
             # If the requested page is not within the legal page count, the last page of the result is returned.
-            books = paginator.page(paginator.num_pages)
+            movies = paginator.page(paginator.num_pages)
             
         context_dict['categories'] = category_list
         context_dict['category'] = category

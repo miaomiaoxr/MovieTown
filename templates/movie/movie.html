@@ -9,17 +9,34 @@
     {% if movie %}
     <div class="jumbotron p-4">
         <div class="container">
+            </br>
             <h1 class="jumbotron jumbotron-fluid">{{ movie.name }}</h1>
         </div>
     </div>
     {% else %}
         The specified category does not exist.
     {% endif %}
-    <h2 class="h2">Number of Liked:{{ count }}</h2>
+   
     <div class="container">
         <div class="row">
           <div class="col">
-            <img src="{{movie.movie_image.url}}" alt="Picture of Movie"/>
+            <h5 class="h2">Number of Stars:{{ count }}</h5>
+            <div>
+                <img src="{{movie.movie_image.url}}" alt="Picture of Movie"/>
+                {% if user.is_authenticated %}
+                {% if flag1 %}
+                    <form action='/movie/like/{{ movie.slug }}' method='GET'>
+                        <button type='submit' style="color: black"> Dislike This Movie</button>
+                    </form>
+                {% else %}
+                    <form action='/movie/like/{{ movie.slug }}' method='GET'>
+                        <button type='submit' style="color: black"> Like This Movie</button>
+                    </form>
+                {% endif %}
+                {% else %}
+                    <p>Please login to like this movie</p>
+                {% endif %}
+            </div>      
           </div>
           <div class="col">
             
@@ -49,7 +66,7 @@
                     {% endif %}
                 {% endfor %}
             {% else %}
-                <strong>No pages currently in category.</strong>
+                <strong>No comments currently in category.</strong>
             {% endif %}
     
             {% if user.is_authenticated %}
@@ -72,19 +89,7 @@
         </div>
     </div>
             
-        {% if user.is_authenticated %}
-            {% if flag1 %}
-                <form action='/movie/like/{{ movie.slug }}' method='GET'>
-                    <button type='submit'> Dislike This Movie</button>
-                </form>
-            {% else %}
-                <form action='/movie/like/{{ movie.slug }}' method='GET'>
-                    <button type='submit'> Like This Movie</button>
-                </form>
-            {% endif %}
-        {% else %}
-            <p>Please login to like this movie</p>
-        {% endif %}
+       
 
         
 {% endblock body_block %}

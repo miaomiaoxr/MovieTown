@@ -15,11 +15,6 @@
                 Welcome to MovieTown!
             {% endblock %}
         </title>
-        <form action="/search" method="GET">
-            <label for="txt_search">Search here:</label></br>
-            <input type="text" id="search_txt" name="search_txt"></br>
-            <button type="search">search</button>
-        </form>
         <link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom styles for this template -->
         <link href="https://getbootstrap.com/docs/5.1/examples/dashboard/dashboard.css" rel="stylesheet">
@@ -32,7 +27,7 @@
     <header>
         {% block header_block %}
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">
-            <a class="navbar-brand p-2" href="{% url 'movie:index' %}">MovieTown</a>
+            <a class="navbar-brand p-2" href="{% url 'homepage' %}">MovieTown</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -47,6 +42,11 @@
                         <strong>There are no categories present.</strong>
                     {% endif %}   
                 </ul>
+                <form action="/search" method="GET">
+                    <label for="txt_search">Search here:</label>
+                    <input type="text" id="search_txt" name="search_txt">
+                    <button type="search">search</button>
+                </form>
         </nav>
         {% endblock %}
     </header>

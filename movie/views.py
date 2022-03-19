@@ -111,8 +111,9 @@ def moviepage(request,movie_name_slug):
         comments= Comment.objects.filter(movie=category)
         like_count=Comment.objects.filter(movie=category,liked_flag=True).count()
         if request.user.is_authenticated:
-            result= Comment.objects.filter(movie=category,user=request.user)[0]
-            context_dict['flag1']=result.liked_flag
+            result= Comment.objects.filter(movie=category,user=request.user)
+            if result:
+                context_dict['flag1']=result[0].liked_flag
         # Retrieve all of the associated pages.
         # The filter() will return a list of page objects or an empty list.
         # Adds our results list to the template context under name pages.
@@ -137,8 +138,9 @@ def homepage(request):
     movies = None
     try:
         movies_top3 = Movie.objects.all()[:3]
-        movies_4_10 = Movie.objects.all()[4:10]
+        movies_4_10 = Movie.objects.all()[3:9]
         movies_update = Movie.objects.order_by('pub_date')[:5]
+        context_dict['categories'] = Category.objects.all()
         context_dict['movies_top3'] = movies_top3
         context_dict['movies_4to10'] = movies_4_10
         context_dict['movies_update'] = movies_update

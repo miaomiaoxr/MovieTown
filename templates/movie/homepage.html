@@ -22,7 +22,7 @@
                                     </br>
 
                                     <span style="text-align: center">
-                                        <a href="/movie/{{ movie.slug }}" onmouseover="this.style.color='red'" onmouseout="this.style.color='gold'" style="text-decoration: none; font-size:16px; color: gold;">
+                                        <a href="/movie/{{ movie.slug }}" onmouseover="this.style.color='red'" onmouseout="this.style.color='blue'" style="text-decoration: none; font-size:16px; color: blue;">
                                             {{ movie.name }}
                                         </a>
                                     </span>
@@ -50,7 +50,9 @@
                             <ul>
                                 {% for movie in movies_4to10 %}
                                     <div>
+                                        <a href="/movie/{{ movie.slug }}" style="text-decoration: none">
                                         {{ movie.name }}<br>
+                                        </a>
                                     </div>
                                 {% endfor %}
                             </ul>
@@ -64,9 +66,11 @@
                             <ul>
                                 {% for movie in movies_update %}
                                     <div>
+                                        <a href="/movie/{{ movie.slug }}" style="text-decoration: none">
                                         {{ movie.name }}<br>
+                                        </a>
                                     </div>
-                                    {% endfor %}
+                                {% endfor %}
                             </ul>
                         {% else %}
                             <strong>There are no movies updated recently.</strong>

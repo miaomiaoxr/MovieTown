@@ -52,7 +52,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="list-group list-group-checkable"></div>
+                <div class="list-group list-group-checkable">
                 {% if comments %}
                 {% for comment in comments %}
                     {% if comment.text %}
@@ -61,14 +61,14 @@
                           <h5 class="mb-1">{{ comment.user }}</h5>
                         </div>
                         <p class="mb-1">{{ comment.text }}</p>
-                      </a>
+                    </a>
                       </div>
                     {% endif %}
                 {% endfor %}
             {% else %}
                 <strong>No comments currently in movie.</strong>
             {% endif %}
-    
+        
             {% if user.is_authenticated %}
                 <form action='/movie/submit/{{ movie.slug }}' method='GET'>
                     <label for="txt_comment">Submit your comment here:</label></br>
